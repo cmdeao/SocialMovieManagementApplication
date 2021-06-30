@@ -1,0 +1,58 @@
+﻿@model SocialMovieManagementApplication.Models.UserProfile
+
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<h2>UserProfile</h2>
+
+<div>
+    <h4>UserProfile</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.userID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.country)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.favoriteMovie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.favoriteMovie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.userBio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userBio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

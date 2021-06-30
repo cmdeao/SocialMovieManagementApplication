@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2>Social Movie Management Application!</h2>
+
+<p>
+    @ViewBag.Message
+</p>
+<body>
+    @Html.ActionLink("View Profile", "Index", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+</body>

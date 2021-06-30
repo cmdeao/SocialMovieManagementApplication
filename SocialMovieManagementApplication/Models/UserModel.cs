@@ -17,6 +17,8 @@ namespace SocialMovieManagementApplication.Models
 {
     public class UserModel
     {
+        public int userID;
+
         [Required(ErrorMessage = "The First Name field is required.")]
         [StringLength(50, ErrorMessage = "First name exceeded 50 characters.")]
         public string firstName { get; set; }

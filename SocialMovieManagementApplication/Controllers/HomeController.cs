@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SocialMovieManagementApplication.Services.Business;
 
 namespace SocialMovieManagementApplication.Controllers
 {
@@ -10,7 +11,17 @@ namespace SocialMovieManagementApplication.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if(UserManagement.Instance._loggedUser != null)
+            {
+                ViewBag.Message = String.Format("Welcome to the application {0}!",
+                    UserManagement.Instance._loggedUser.username);
+            }
+            else
+            {
+                ViewBag.Message = "Welcome to the application! Please login to fully" +
+                    " utilize the applications features!";
+            }
+            return View("Home");
         }
 
         public ActionResult About()

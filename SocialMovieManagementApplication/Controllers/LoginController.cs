@@ -2,6 +2,7 @@
 using SocialMovieManagementApplication.Services.Business;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,7 +48,9 @@ namespace SocialMovieManagementApplication.Controllers
             //authentication and returning the appropriate view.
             if(service.Authenticate(model))
             {
-                return View("LoginPassed");
+                Debug.WriteLine("User ID: {0}",UserManagement.Instance._loggedUser.userID);
+                //return View("LoginPassed");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
