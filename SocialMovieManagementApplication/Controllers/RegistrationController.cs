@@ -67,6 +67,9 @@ namespace SocialMovieManagementApplication.Controllers
             {
                 return View("Registration");
             }
+
+
+            //THIS IS A TEST!
         }
     }
 }
