@@ -1,1 +1,1 @@
-# SocialMovieManagement-CST-452
+# SocialMovieManagement
