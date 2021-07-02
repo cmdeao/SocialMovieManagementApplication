@@ -17,6 +17,7 @@ namespace SocialMovieManagementApplication.Controllers
         {
             ProfileService service = new ProfileService();
             UserProfile userProfile = service.RetrieveProfile(UserManagement.Instance._loggedUser.userID);
+            ViewBag.Message = UserManagement.Instance._loggedUser.username;
             //userProfile = null;
             return View(userProfile);
         }
@@ -63,16 +64,16 @@ namespace SocialMovieManagementApplication.Controllers
                 service.UpdateProfile(profile);
                 return RedirectToAction("Index", "UserProfile");
             }
+        }
 
-            //if (service.AddProfile(profile))
-            //{
-            //    //return View("UpdateProfile");
-            //    return Content("We've inserted the data!");
-            //}
-            //else
-            //{
-            //    return Content("FAILED TO INSERT DATA!");
-            //}
+        [HttpPost]
+        public ActionResult ViewProfile(int id, string username)
+        {
+            ProfileService service = new ProfileService();
+            UserProfile searchedProfile = service.RetrieveProfile(id);
+            ViewBag.Message = username;
+            //return Content("ID: " + id + " USERNAME: " + username);
+            return View("UserProfile", searchedProfile);
         }
     }
 }

@@ -4,22 +4,27 @@
     ViewBag.Title = "UserProfile";
 }
 
-<h2>UserProfile</h2>
+<style>
+    .imgCenter{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .center {
+        margin: auto;
+        width: 35%;
+    }
+</style>
 
-<div>
-    <h4>UserProfile</h4>
+<h1 style="text-align: center;">@ViewBag.Message</h1>
+
+<img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" width="200" height="200"/>
+<div class="center">
     <hr />
-    <dl class="dl-horizontal">
+    <h3 style="text-align: center;">Information</h3>
+    <dl class="dl-horizontal" style="font-size: 20px;">
         <dt>
-            @Html.DisplayNameFor(model => model.userID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.userID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.country)
+            @Html.Label("Country:")
         </dt>
 
         <dd>
@@ -27,7 +32,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.age)
+            @Html.Label("Age:")
         </dt>
 
         <dd>
@@ -35,7 +40,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.favoriteMovie)
+            @Html.Label("Favorite Movie:")
         </dt>
 
         <dd>
@@ -43,7 +48,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.userBio)
+            @Html.Label("User Bio:")
         </dt>
 
         <dd>
@@ -52,7 +57,6 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<br />
+<br />
+<h3 style="text-align: center;">'Features will be added to view user collections soon!'</h3>

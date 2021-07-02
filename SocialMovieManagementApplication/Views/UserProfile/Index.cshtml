@@ -4,8 +4,17 @@
     ViewBag.Title = "Index";
 }
 
+<style>
+    .imgCenter{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
 <body>
-    <h2>User Profile</h2>
+    <img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" />
+    <h2 style="text-align: center;">@ViewBag.Message</h2>
     @if (Model != null)
     {
 <div style="text-align: center;">

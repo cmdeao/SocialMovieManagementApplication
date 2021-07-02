@@ -133,8 +133,10 @@
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Business\Data\ProfileDAO.cs" />
+    <Compile Include="Services\Business\Data\SearchDAO.cs" />
     <Compile Include="Services\Business\Data\SecurityDAO.cs" />
     <Compile Include="Services\Business\ProfileService.cs" />
+    <Compile Include="Services\Business\SearchService.cs" />
     <Compile Include="Services\Business\SecurityService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +144,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\BlankProfilePicture.jpg" />
+    <Content Include="Content\Images\FilmReel-2.jpg" />
+    <Content Include="Content\Images\FilmReel.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -181,6 +186,7 @@
     <Content Include="Views\UserProfile\UpdateProfile.cshtml" />
     <Content Include="Views\UserProfile\UserProfile.cshtml" />
     <Content Include="Views\UserProfile\Index.cshtml" />
+    <Content Include="Views\Home\SearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

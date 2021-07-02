@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -43,6 +44,23 @@ namespace SocialMovieManagementApplication.Controllers
             string test = "This is a hello world test!";
 
             return Content(test);
+        }
+
+        [HttpPost]
+        public ActionResult Search(string SearchText)
+        {
+            Debug.WriteLine("Hello world!");
+            Dictionary<int, string> users = new Dictionary<int, string>();
+            SearchService service = new SearchService();
+            users = service.SearchUsers(SearchText);
+
+            Debug.WriteLine("Size of Dict: " + users.Count);
+            foreach(KeyValuePair<int, string> element in users)
+            {
+                Debug.WriteLine("Key = {0}, Value = {1}", element.Key, element.Value);
+            }
+            //return Content(SearchText);
+            return View("SearchResults", users);
         }
     }
 }

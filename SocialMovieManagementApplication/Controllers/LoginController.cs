@@ -48,7 +48,8 @@ namespace SocialMovieManagementApplication.Controllers
             //authentication and returning the appropriate view.
             if(service.Authenticate(model))
             {
-                Debug.WriteLine("User ID: {0}",UserManagement.Instance._loggedUser.userID);
+                //Debug.WriteLine("User ID: {0}",UserManagement.Instance._loggedUser.userID);
+                Session["UserName"] = model.username;
                 //return View("LoginPassed");
                 return RedirectToAction("Index", "Home");
             }
@@ -56,6 +57,13 @@ namespace SocialMovieManagementApplication.Controllers
             {
                 return View("LoginFailed");
             }
+        }
+
+        public ActionResult Logout()
+        {
+            UserManagement.Instance.LogOut();
+            Session["UserName"] = null;
+            return RedirectToAction("Index", "Login");
         }
     }
 }

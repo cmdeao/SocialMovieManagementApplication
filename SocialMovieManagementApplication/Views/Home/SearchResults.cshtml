@@ -1,0 +1,28 @@
+﻿@model Dictionary<int, string>
+
+@{
+    ViewBag.Title = "SearchResults";
+}
+
+<h2>Search Results</h2>
+
+<table class="table table-bordered table-responsive table-hover" style="width: 300px;">
+    <tr>
+        <th style="text-align: center;">Username:</th>
+        <th style="text-align: center;">Select:</th>
+    </tr>
+    @foreach(KeyValuePair<int, string> pair in Model)
+    {
+    <tr style="text-align: center;">
+        <td>@pair.Value</td>
+        @using (Html.BeginForm("ViewProfile", "UserProfile", FormMethod.Post))
+        {
+            <td>
+                @Html.Hidden("id", pair.Key)
+                @Html.Hidden("username", pair.Value)
+                <input type="submit" value="View Profile"/>
+            </td>
+        }
+    </tr>
+    }
+</table>
