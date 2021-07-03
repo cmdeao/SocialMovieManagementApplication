@@ -49,17 +49,9 @@ namespace SocialMovieManagementApplication.Controllers
         [HttpPost]
         public ActionResult Search(string SearchText)
         {
-            Debug.WriteLine("Hello world!");
             Dictionary<int, string> users = new Dictionary<int, string>();
             SearchService service = new SearchService();
             users = service.SearchUsers(SearchText);
-
-            Debug.WriteLine("Size of Dict: " + users.Count);
-            foreach(KeyValuePair<int, string> element in users)
-            {
-                Debug.WriteLine("Key = {0}, Value = {1}", element.Key, element.Value);
-            }
-            //return Content(SearchText);
             return View("SearchResults", users);
         }
     }
