@@ -42,7 +42,7 @@ namespace SocialMovieManagementApplication.Controllers
         public ActionResult Testing()
         {
             string test = "This is a hello world test!";
-
+            //Commit comment.
             return Content(test);
         }
 
