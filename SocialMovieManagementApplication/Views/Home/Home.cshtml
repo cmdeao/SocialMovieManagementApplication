@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<h2 style="text-align: center;">Social Movie Management Application!</h2>
+
+<style>
+    .center{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+</style>
+<h3 style="text-align: center;">
+    @ViewBag.Message
+</h3>
+
+
+<body>
+    <div style="text-align: center;">
+        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+        {
+            @Html.TextBox("SearchText", "", new { placeholder = "Search users" })
+            <input type="submit" value="Search"/>
+        }
+    </div>
+    <img src="~/Content/Images/FilmReel-2.jpg" class="center" width="500" height="400" />
+    <br />
+    @if (Session["UserName"] != null)
+    {
+        <div style="text-align:center;">
+            @Html.ActionLink("View Profile", "Index", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+        </div>
+    }
+</body>

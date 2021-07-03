@@ -15,6 +15,35 @@ using System.Web;
 
 namespace SocialMovieManagementApplication.Services.Business
 {
+    public class UserManagement
+    {
+        private static UserManagement _instance;
+        public UserModel _loggedUser { get; set; } = null;
+
+        public UserManagement()
+        {
+
+        }
+
+        public static UserManagement Instance
+        {
+            get 
+            {
+                if(_instance == null)
+                {
+                    _instance = new UserManagement();
+                }
+
+                return _instance;
+            }
+        }
+
+        public void LogOut()
+        {
+            _loggedUser = null;
+        }
+    }
+
     public class SecurityService
     {
         //Establishing an instance of the SecurityDAO class.

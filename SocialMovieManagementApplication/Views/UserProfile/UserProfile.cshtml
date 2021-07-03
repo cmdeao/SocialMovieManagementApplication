@@ -1,0 +1,62 @@
+﻿@model SocialMovieManagementApplication.Models.UserProfile
+
+@{
+    ViewBag.Title = "UserProfile";
+}
+
+<style>
+    .imgCenter{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .center {
+        margin: auto;
+        width: 35%;
+    }
+</style>
+
+<h1 style="text-align: center;">@ViewBag.Message</h1>
+
+<img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" width="200" height="200"/>
+<div class="center">
+    <hr />
+    <h3 style="text-align: center;">Information</h3>
+    <dl class="dl-horizontal" style="font-size: 20px;">
+        <dt>
+            @Html.Label("Country:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.country)
+        </dd>
+
+        <dt>
+            @Html.Label("Age:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.age)
+        </dd>
+
+        <dt>
+            @Html.Label("Favorite Movie:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.favoriteMovie)
+        </dd>
+
+        <dt>
+            @Html.Label("User Bio:")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userBio)
+        </dd>
+
+    </dl>
+</div>
+<br />
+<br />
+<h3 style="text-align: center;">'Features will be added to view user collections soon!'</h3>

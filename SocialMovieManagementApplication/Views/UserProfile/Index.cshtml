@@ -1,0 +1,35 @@
+﻿@model SocialMovieManagementApplication.Models.UserProfile
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .imgCenter{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<body>
+    <img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" />
+    <h2 style="text-align: center;">@ViewBag.Message</h2>
+    @if (Model != null)
+    {
+<div style="text-align: center;">
+    <h3>Country: @Model.country</h3>
+    <h3>Age: @Model.age</h3>
+    <h3>Favorite Movie: @Model.favoriteMovie</h3>
+    <h3>Bio: @Model.userBio</h3>
+
+    @Html.ActionLink("Update Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+</div>
+    }
+    else
+    {
+        <h3>Please create a profile for yourself!</h3>
+        @Html.ActionLink("Create Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+    }
+</body>
+
