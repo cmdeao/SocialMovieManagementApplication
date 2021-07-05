@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SocialMovieManagementApplication.Controllers.Search>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<table class="table table-bordered table-responsive table-hover" style="width: 1000px;">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Year)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Poster)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Year)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td>
+            <img src="@Url.Content(item.Poster)" , style="width: 50%; height: auto;" />
+        </td>
+        @using (Html.BeginForm("ViewMovieAsync", "MovieSearch", FormMethod.Post))
+        {
+            <td>
+                @Html.Hidden("id", item.imdbID)
+                <input type="submit" value="Select"/>
+            </td>
+        }
+    </tr>
+}
+
+</table>

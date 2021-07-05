@@ -24,6 +24,12 @@
             @Html.TextBox("SearchText", "", new { placeholder = "Search users" })
             <input type="submit" value="Search"/>
         }
+        <br />
+        @using (Html.BeginForm("Index", "MovieSearch", FormMethod.Post))
+        {
+            @Html.TextBox("MovieSearchTerm", "", new { placeholder = "Search movies" })
+            <input type="submit" value="Search"/>
+        }
     </div>
     <img src="~/Content/Images/FilmReel-2.jpg" class="center" width="500" height="400" />
     <br />
@@ -31,6 +37,7 @@
     {
         <div style="text-align:center;">
             @Html.ActionLink("View Profile", "Index", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+            @Html.ActionLink("Movie Search", "Index", "MovieSearch", null, new { @class = "btn btn-primary btn-large" })
         </div>
     }
 </body>
