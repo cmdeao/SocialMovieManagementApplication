@@ -25,6 +25,71 @@ namespace SocialMovieManagementApplication.Controllers
                     " utilize the applications features!";
             }
 
+            List<Search> movies = new List<Search>();
+            Search firstMovie = new Search();
+            firstMovie.Title = "The Godfather";
+            firstMovie.Year = "1977";
+            firstMovie.imdbID = "12345";
+            firstMovie.Type = "movie";
+            firstMovie.Poster = "posterLINK";
+            movies.Add(firstMovie);
+
+            Search secondMovie = new Search();
+            secondMovie.Title = "Goodfellas";
+            secondMovie.Year = "1999";
+            secondMovie.imdbID = "98765";
+            secondMovie.Type = "movie";
+            secondMovie.Poster = "LINKposter";
+            movies.Add(secondMovie);
+
+            Search thirdMovie = new Search();
+            thirdMovie.Title = "Willy Wonka";
+            thirdMovie.Year = "1969";
+            thirdMovie.imdbID = "654321";
+            thirdMovie.Type = "game";
+            thirdMovie.Poster = "POSTERINFO";
+            movies.Add(thirdMovie);
+
+            string json = JsonConvert.SerializeObject(movies, Formatting.Indented);
+            Debug.WriteLine("JSON OUTPUT");
+            Debug.WriteLine(json);
+
+            //MovieService service = new MovieService();
+
+            //if(service.CheckUserCollection(UserManagement.Instance._loggedUser.userID))
+            //{
+            //    if(service.UpdateCollection(UserManagement.Instance._loggedUser.userID, json))
+            //    {
+            //        Debug.WriteLine("UPDATED DATA!");
+            //    }
+            //    else
+            //    {
+            //        Debug.WriteLine("SOMETHING WENT WRONG WITH THE UPDATE!");
+            //    }
+            //}
+            //else
+            //{
+            //    service.InsertMovies(UserManagement.Instance._loggedUser.userID, json);
+            //}
+
+            //service.InsertMovies(UserManagement.Instance._loggedUser.userID, json);
+            //string testing = service.RetrieveMovies(UserManagement.Instance._loggedUser.userID);
+            //Debug.WriteLine("WE FOUND SOME MOVIES: " + testing);
+
+            //List<Search> jsonMovies = JsonConvert.DeserializeObject<List<Search>>(testing);
+            //for (int i = 0; i < jsonMovies.Count; i++)
+            //{
+            //    Debug.WriteLine(jsonMovies[i].Title + " " + jsonMovies[i].Year + " " + jsonMovies[i].imdbID + " " + jsonMovies[i].Type + " " + jsonMovies[i].Poster);
+            //}
+
+
+            //List<Search> jsonMovies = JsonConvert.DeserializeObject<List<Search>>(json);
+            //for(int i = 0; i < jsonMovies.Count; i++)
+            //{
+            //    Debug.WriteLine(jsonMovies[i].Title + jsonMovies[i].Year + jsonMovies[i].imdbID + jsonMovies[i].Type + jsonMovies[i].Poster);
+            //}
+            //Debug.WriteLine("Size of list: " + jsonMovies.Count);
+
             //await CheckAPIAsync();
 
             return View("Home");

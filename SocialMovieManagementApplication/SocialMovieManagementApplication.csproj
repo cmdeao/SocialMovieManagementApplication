@@ -135,9 +135,11 @@
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Business\Data\MovieDAO.cs" />
     <Compile Include="Services\Business\Data\ProfileDAO.cs" />
     <Compile Include="Services\Business\Data\SearchDAO.cs" />
     <Compile Include="Services\Business\Data\SecurityDAO.cs" />
+    <Compile Include="Services\Business\MovieService.cs" />
     <Compile Include="Services\Business\ProfileService.cs" />
     <Compile Include="Services\Business\SearchService.cs" />
     <Compile Include="Services\Business\SecurityService.cs" />
@@ -193,6 +195,8 @@
     <Content Include="Views\MovieSearch\MovieSearchResults.cshtml" />
     <Content Include="Views\MovieSearch\MovieResults.cshtml" />
     <Content Include="Views\MovieSearch\ViewMovie.cshtml" />
+    <Content Include="Views\UserProfile\ProfileCollection.cshtml" />
+    <Content Include="Views\UserProfile\RandomMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

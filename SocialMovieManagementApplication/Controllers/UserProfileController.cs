@@ -7,6 +7,7 @@ using SocialMovieManagementApplication.Services.Business;
 using System.Web.Mvc;
 using System.Globalization;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace SocialMovieManagementApplication.Controllers
 {
@@ -72,6 +73,96 @@ namespace SocialMovieManagementApplication.Controllers
             UserProfile searchedProfile = service.RetrieveProfile(id);
             ViewBag.Message = username;
             return View("UserProfile", searchedProfile);
+        }
+
+        public ActionResult ViewCollection()
+        {
+            MovieService service = new MovieService();
+            string jsonData = service.RetrieveMovies(UserManagement.Instance._loggedUser.userID);
+            Debug.WriteLine("Data found: " + jsonData);
+            List<Search> jsonMovies = new List<Search>();
+            if (jsonData != null)
+            {
+                jsonMovies = JsonConvert.DeserializeObject<List<Search>>(jsonData);
+                ViewBag.Message = String.Format("You have {0} movies in your collection!", jsonMovies.Count);
+                return View("ProfileCollection", jsonMovies);
+            }
+            else
+            {
+                ViewBag.Message = String.Format("You have {0} movies in your collection!", 0);
+                return View("ProfileCollection", jsonMovies);
+            }
+        }
+
+        public ActionResult AddToCollection(Search item)
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+
+            MovieService service = new MovieService();
+            if(service.CheckUserCollection(userID))
+            {
+                string jsonCollection = service.RetrieveMovies(userID);
+                List<Search> retrievedMovies = JsonConvert.DeserializeObject<List<Search>>(jsonCollection);
+                retrievedMovies.Add(item);
+                string jsonInsertion = JsonConvert.SerializeObject(retrievedMovies, Formatting.Indented);
+
+                if (service.UpdateCollection(userID, jsonInsertion))
+                {
+                    return RedirectToAction("ViewCollection", "UserProfile");
+                }
+                else
+                {
+                    return Content("SOMETHING WENT WRONG UPDATING A COLLECTION!");
+                }
+            }
+            else
+            {
+                List<Search> newMovie = new List<Search>();
+                newMovie.Add(item);
+                string jsonData = JsonConvert.SerializeObject(newMovie, Formatting.Indented);
+                if (service.InsertMovies(userID, jsonData))
+                {
+                    return RedirectToAction("ViewCollection", "UserProfile");
+                }
+                else
+                {
+                    return Content("SOMETHING WENT WRONG CREATING A COLLECTION!");
+                }
+            }
+        }
+
+        public ActionResult RemoveMovie(Search item)
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+            MovieService service = new MovieService();
+            string jsonCollection = service.RetrieveMovies(userID);
+            List<Search> retrievedMovies = JsonConvert.DeserializeObject<List<Search>>(jsonCollection);
+
+            retrievedMovies.RemoveAll(x => x.Title == item.Title);
+            string jsonUpdate = JsonConvert.SerializeObject(retrievedMovies, Formatting.Indented);
+            if (service.UpdateCollection(userID, jsonUpdate))
+            {
+                return RedirectToAction("ViewCollection", "UserProfile");
+            }
+            else
+            {
+                return Content("SOMETHING WENT WRONG UPDATING A COLLECTION!");
+            }
+        }
+
+        public ActionResult RandomMovie()
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+
+            MovieService service = new MovieService();
+            string jsonCollection = service.RetrieveMovies(userID);
+            List<Search> retrievedMovies = JsonConvert.DeserializeObject<List<Search>>(jsonCollection);
+
+            var random = new Random();
+            int randomIndex = random.Next(retrievedMovies.Count);
+
+            Search randomMovie = retrievedMovies[randomIndex];
+            return View("RandomMovie", randomMovie);
         }
     }
 }

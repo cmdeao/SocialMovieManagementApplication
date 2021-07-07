@@ -24,6 +24,9 @@
     <h3>Bio: @Model.userBio</h3>
 
     @Html.ActionLink("Update Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+    <br />
+    <br />
+    @Html.ActionLink("View Collection", "ViewCollection", "UserProfile", null, new { @class = "btn btn-primary btn-large"})
 </div>
     }
     else
