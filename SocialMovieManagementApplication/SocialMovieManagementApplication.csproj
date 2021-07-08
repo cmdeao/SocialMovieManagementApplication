@@ -152,6 +152,7 @@
     <Content Include="Content\Images\BlankProfilePicture.jpg" />
     <Content Include="Content\Images\FilmReel-2.jpg" />
     <Content Include="Content\Images\FilmReel.png" />
+    <Content Include="Content\Images\profile_popcorn.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -197,6 +198,8 @@
     <Content Include="Views\MovieSearch\ViewMovie.cshtml" />
     <Content Include="Views\UserProfile\ProfileCollection.cshtml" />
     <Content Include="Views\UserProfile\RandomMovie.cshtml" />
+    <Content Include="Views\UserProfile\UserCollection.cshtml" />
+    <Content Include="Views\UserProfile\RandomMovieDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

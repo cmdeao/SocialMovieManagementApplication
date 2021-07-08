@@ -1,7 +1,7 @@
 ﻿@model SocialMovieManagementApplication.Models.MovieModel
 
 @{
-    ViewBag.Title = "ViewMovie";
+    ViewBag.Title = "Random Movie!";
 }
 <head>
     <style>
@@ -19,12 +19,19 @@
     </style>
 </head>
 <body>
-    <div>
-        
+    <div style="padding: 25px; display:inline-block;">
+        <img src="~/Content/Images/profile_popcorn.png" height="150" />
+    </div>
+    <div style="padding: 25px; display:inline-block;">
+        <h1 style="text-align:center;">Random Movie from Your Collection!<br />Grab the popcorn!<br /></h1>
+    </div>
+    <div style="padding: 25px; display:inline-block;">
+        <img src="~/Content/Images/profile_popcorn.png" height="150" />
     </div>
     <div class="row">
         <div class="column">
-            <h1><b>@Model.Title</b></h1>
+
+            <h1><b> @Model.Title</b></h1>
 
             <h4>
                 <b>IMDb Rating: </b> @Html.DisplayFor(model => model.imdbRating)
@@ -66,6 +73,7 @@
             </h4>
         </div>
         <div class="column">
+            <br />
             <br />
             <br />
             <br />

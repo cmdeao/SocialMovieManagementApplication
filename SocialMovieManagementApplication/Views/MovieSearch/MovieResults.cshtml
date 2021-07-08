@@ -4,7 +4,17 @@
     ViewBag.Title = "View";
 }
 
-<h2>View</h2>
+<h2>Search Results:</h2>
+
+<style>
+    td{
+        text-align:center;
+        vertical-align:middle;
+    }
+    th{
+        text-align:center;
+    }
+</style>
 
 <table class="table table-bordered table-responsive table-hover" style="width: 1000px;">
     <tr>
@@ -15,9 +25,6 @@
             @Html.DisplayNameFor(model => model.Year)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Type)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Poster)
         </th>
         <th></th>
@@ -25,28 +32,28 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td style="text-align:center; vertical-align:middle;">
             @Html.DisplayFor(modelItem => item.Title)
         </td>
-        <td>
+        <td style="vertical-align:middle;">
             @Html.DisplayFor(modelItem => item.Year)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Type)
         </td>
         <td>
             <img src="@Url.Content(item.Poster)" , style="width: 50%; height: auto;" />
         </td>
         @using (Html.BeginForm("ViewMovieAsync", "MovieSearch", FormMethod.Post))
         {
-            <td>
+            <td style="vertical-align:middle;">
                 @Html.Hidden("id", item.imdbID)
                 <input type="submit" value="Select"/>
             </td>
         }
-        <td>
-            @Html.ActionLink("Add to Collection", "AddToCollection", "UserProfile", item, new { @class = "btn btn-primary btn-large" })
-        </td>
+        @if (Session["UserName"] != null)
+        {
+            <td style="vertical-align:middle;">
+                @Html.ActionLink("Add to Collection", "AddToCollection", "UserProfile", item, new { @class = "btn btn-primary btn-large" })
+            </td>
+        }
     </tr>
 }
 

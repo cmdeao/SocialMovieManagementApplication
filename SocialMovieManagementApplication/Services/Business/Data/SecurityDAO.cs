@@ -57,9 +57,8 @@ namespace SocialMovieManagementApplication.Services.Business.Data
                     while(reader.Read())
                     {
                         //Checking the stored password against the passed password.
-                        if (reader.GetString(5) != user.password)
+                        if(!VerifyHash(reader.GetString(5), user.password))
                         {
-                            //Returning false if no match is found.
                             authenticatedUser = false;
                         }
                         else
@@ -210,8 +209,7 @@ namespace SocialMovieManagementApplication.Services.Business.Data
             command.Parameters.Add(new SqlParameter("@lName", SqlDbType.VarChar, 50)).Value = user.lastName;
             command.Parameters.Add(new SqlParameter("@email", SqlDbType.VarChar, 100)).Value = user.emailAddress;
             command.Parameters.Add(new SqlParameter("@username", SqlDbType.VarChar, 100)).Value = user.username;
-            command.Parameters.Add(new SqlParameter("@password", SqlDbType.VarChar, 100)).Value = user.password;
-            //command.Parameters.Add(new SqlParameter("@password", SqlDbType.VarChar, 100)).Value = Encrypt(key, user.password);
+            command.Parameters.Add(new SqlParameter("@password", SqlDbType.VarChar, 100)).Value = Hash(user.password);
             command.Parameters.Add(new SqlParameter("@banned", SqlDbType.TinyInt)).Value = 0;
 
             //Preparing the command.
@@ -234,56 +232,36 @@ namespace SocialMovieManagementApplication.Services.Business.Data
             }
         }
 
-        public static string Encrypt(string key, string incStr)
+        public static string Hash(string password)
         {
-            byte[] iv = new byte[16];
-            byte[] array;
-
-            using(Aes aes = Aes.Create())
-            {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using(MemoryStream ms = new MemoryStream())
-                {
-                    using(CryptoStream cs = new CryptoStream((Stream)ms, encryptor, CryptoStreamMode.Write))
-                    {
-                        using(StreamWriter streamWriter = new StreamWriter((Stream)cs))
-                        {
-                            streamWriter.Write(incStr);
-                        }
-                        array = ms.ToArray();
-                    }
-                }
-            }
-
-            return Convert.ToBase64String(array);
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[20]);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
+            byte[] hashBytes = new byte[40];
+            Array.Copy(salt, 0, hashBytes, 0, 20);
+            Array.Copy(hash, 0, hashBytes, 20, 20);
+            string hashPass = Convert.ToBase64String(hashBytes);
+            return hashPass;
         }
 
-        public static string Decrypt(string key, string incStr)
+        public bool VerifyHash(string hashPass, string password)
         {
-            byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(incStr);
+            byte[] hashBytes = Convert.FromBase64String(hashPass);
+            byte[] salt = new byte[20];
+            Array.Copy(hashBytes, 0, salt, 0, 20);
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 10000);
+            byte[] hash = pbkdf2.GetBytes(20);
 
-            using (Aes aes = Aes.Create())
+            for(int i = 0; i < 20; i++)
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream ms = new MemoryStream(buffer))
+                if(hashBytes[i + 20] != hash[i])
                 {
-                    using (CryptoStream cs = new CryptoStream((Stream)ms, decryptor, CryptoStreamMode.Read))
-                    {
-                        using (StreamReader sr = new StreamReader((Stream)cs))
-                        {
-                            return sr.ReadToEnd();
-                        }
-                    }
+                    return false;
+                    throw new UnauthorizedAccessException();
                 }
             }
+            return true;
         }
     }
 }

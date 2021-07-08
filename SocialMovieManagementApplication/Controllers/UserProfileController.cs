@@ -75,6 +75,27 @@ namespace SocialMovieManagementApplication.Controllers
             return View("UserProfile", searchedProfile);
         }
 
+        public ActionResult ViewUserCollection(UserProfile user)
+        {
+            int userID = user.userID;
+            Debug.WriteLine("USER ID:" + userID);
+            MovieService service = new MovieService();
+            string jsonData = service.RetrieveMovies(userID);
+            List<Search> jsonMovies = new List<Search>();
+
+            if(jsonData != null)
+            {
+                jsonMovies = JsonConvert.DeserializeObject<List<Search>>(jsonData);
+                ViewBag.Message = String.Format("Collection size: {0}", jsonMovies.Count);   
+                return View("UserCollection", jsonMovies);
+            }
+            else
+            {
+                ViewBag.Message = String.Format("Collection size: 0");
+                return View("UserCollection", jsonMovies);
+            }
+        }
+
         public ActionResult ViewCollection()
         {
             MovieService service = new MovieService();
@@ -150,7 +171,7 @@ namespace SocialMovieManagementApplication.Controllers
             }
         }
 
-        public ActionResult RandomMovie()
+        public async System.Threading.Tasks.Task<ActionResult> RandomMovie()
         {
             int userID = UserManagement.Instance._loggedUser.userID;
 
@@ -162,7 +183,9 @@ namespace SocialMovieManagementApplication.Controllers
             int randomIndex = random.Next(retrievedMovies.Count);
 
             Search randomMovie = retrievedMovies[randomIndex];
-            return View("RandomMovie", randomMovie);
+            MovieModel randomMovieDetails = await service.SearchMovieAPI(randomMovie.imdbID);
+
+            return View("RandomMovieDetails", randomMovieDetails);
         }
     }
 }

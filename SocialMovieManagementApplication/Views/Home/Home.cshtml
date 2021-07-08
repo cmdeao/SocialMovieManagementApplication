@@ -25,11 +25,6 @@
             <input type="submit" value="Search" />
         }
         <br />
-        @using (Html.BeginForm("Index", "MovieSearch", FormMethod.Post))
-        {
-            @Html.TextBox("MovieSearchTerm", "", new { placeholder = "Search movies" })
-            <input type="submit" value="Search" />
-        }
         <br />
     </div>
     <img src="~/Content/Images/FilmReel-2.jpg" class="center" width="500" height="400" />

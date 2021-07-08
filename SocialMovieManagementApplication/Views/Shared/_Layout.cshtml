@@ -27,11 +27,19 @@
                     {
                         <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
                         <li>@Html.ActionLink("Profile", "Index", "UserProfile")</li>
+
                     }
                     else
                     {
                         <li>@Html.ActionLink("Login", "Index", "Login")</li>
                         <li>@Html.ActionLink("Register", "Index", "Registration")</li>
+                    }
+                </ul>
+                <ul class="nav navbar-nav">
+                    @using (Html.BeginForm("Index", "MovieSearch", FormMethod.Post))
+                    {
+                        <li style="margin-top: 13px;">@Html.TextBox("MovieSearchTerm", "", new { placeholder = "Search Movies" })
+                        <input type="submit" value="Search" /></li>
                     }
                 </ul>
             </div>
