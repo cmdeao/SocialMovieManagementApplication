@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Globalization;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace SocialMovieManagementApplication.Controllers
 {
@@ -19,17 +20,22 @@ namespace SocialMovieManagementApplication.Controllers
             ProfileService service = new ProfileService();
             UserProfile userProfile = service.RetrieveProfile(UserManagement.Instance._loggedUser.userID);
             ViewBag.Message = UserManagement.Instance._loggedUser.username;
-            return View(userProfile);
+
+            ProfileModel model = new ProfileModel();
+            Search favoriteMovie = new Search();
+            model.movie = service.RetrieveFavoriteMovie(UserManagement.Instance._loggedUser.userID);
+            model.userModel = userProfile;
+            return View(model);
         }
 
         public ActionResult UpdateProfileView()
         {
             List<string> countryList = new List<string>();
             CultureInfo[] cInfoList = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-            foreach(CultureInfo cInfo in cInfoList)
+            foreach (CultureInfo cInfo in cInfoList)
             {
                 RegionInfo r = new RegionInfo(cInfo.LCID);
-                if(!(countryList.Contains(r.EnglishName)))
+                if (!(countryList.Contains(r.EnglishName)))
                 {
                     countryList.Add(r.EnglishName);
                 }
@@ -54,7 +60,7 @@ namespace SocialMovieManagementApplication.Controllers
 
             ProfileService service = new ProfileService();
 
-            if(!service.CheckProfile(profile.userID))
+            if (!service.CheckProfile(profile.userID))
             {
                 service.AddProfile(profile);
                 return RedirectToAction("Index", "UserProfile");
@@ -71,22 +77,26 @@ namespace SocialMovieManagementApplication.Controllers
         {
             ProfileService service = new ProfileService();
             UserProfile searchedProfile = service.RetrieveProfile(id);
+            Search favoriteMovie = service.RetrieveFavoriteMovie(id);
+
+            ProfileModel model = new ProfileModel();
+            model.userModel = searchedProfile;
+            model.movie = favoriteMovie;
             ViewBag.Message = username;
-            return View("UserProfile", searchedProfile);
+            return View("UserProfile", model);
         }
 
         public ActionResult ViewUserCollection(UserProfile user)
         {
             int userID = user.userID;
-            Debug.WriteLine("USER ID:" + userID);
             MovieService service = new MovieService();
             string jsonData = service.RetrieveMovies(userID);
             List<Search> jsonMovies = new List<Search>();
 
-            if(jsonData != null)
+            if (jsonData != null)
             {
                 jsonMovies = JsonConvert.DeserializeObject<List<Search>>(jsonData);
-                ViewBag.Message = String.Format("Collection size: {0}", jsonMovies.Count);   
+                ViewBag.Message = String.Format("Collection size: {0}", jsonMovies.Count);
                 return View("UserCollection", jsonMovies);
             }
             else
@@ -100,7 +110,6 @@ namespace SocialMovieManagementApplication.Controllers
         {
             MovieService service = new MovieService();
             string jsonData = service.RetrieveMovies(UserManagement.Instance._loggedUser.userID);
-            Debug.WriteLine("Data found: " + jsonData);
             List<Search> jsonMovies = new List<Search>();
             if (jsonData != null)
             {
@@ -120,10 +129,16 @@ namespace SocialMovieManagementApplication.Controllers
             int userID = UserManagement.Instance._loggedUser.userID;
 
             MovieService service = new MovieService();
-            if(service.CheckUserCollection(userID))
+            if (service.CheckUserCollection(userID))
             {
                 string jsonCollection = service.RetrieveMovies(userID);
                 List<Search> retrievedMovies = JsonConvert.DeserializeObject<List<Search>>(jsonCollection);
+
+                if (retrievedMovies.Any(x => x.imdbID == item.imdbID))
+                {
+                    return View("CollectionError");
+                }
+
                 retrievedMovies.Add(item);
                 string jsonInsertion = JsonConvert.SerializeObject(retrievedMovies, Formatting.Indented);
 
@@ -187,5 +202,24 @@ namespace SocialMovieManagementApplication.Controllers
 
             return View("RandomMovieDetails", randomMovieDetails);
         }
+
+        public ActionResult SetFavoriteMovie(Search item)
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+            List<Search> movie = new List<Search>();
+            movie.Add(item);
+            string json = JsonConvert.SerializeObject(movie, Formatting.Indented);
+            ProfileService service = new ProfileService();
+            service.AddFavoriteMovie(json, userID);
+            //string jsonData = JsonConvert.SerializeObject<Search>(item);
+            //return Content("Added favorite movie!");
+            return RedirectToAction("Index", "UserProfile");
+        }
+    }
+
+    public class ProfileModel
+    {
+        public UserProfile userModel {get; set;}
+        public Search movie { get; set; }
     }
 }

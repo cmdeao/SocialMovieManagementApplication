@@ -20,10 +20,14 @@ namespace SocialMovieManagementApplication.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<ActionResult> Index(string MovieSearchTerm)
         {
-            string s = MovieSearchTerm;
+            if(String.IsNullOrEmpty(MovieSearchTerm))
+            {
+                return View("Error");
+            }
+
             var uriBuilder = new UriBuilder("https://movie-database-imdb-alternative.p.rapidapi.com");
             var parameters = HttpUtility.ParseQueryString(string.Empty);
-            parameters["s"] = s;
+            parameters["s"] = MovieSearchTerm;
             parameters["page"] = "1";
             parameters["type"] = "movie";
             parameters["r"] = "json";
@@ -54,12 +58,7 @@ namespace SocialMovieManagementApplication.Controllers
             {
                 response.EnsureSuccessStatusCode();
                 var body = await response.Content.ReadAsStringAsync();
-
-
                 Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(body);
-
-                Debug.WriteLine("Old output!");
-                Debug.WriteLine(body);
                 return myDeserializedClass;
             }
         }

@@ -1,63 +1,70 @@
-﻿@model SocialMovieManagementApplication.Models.UserProfile
+﻿@model SocialMovieManagementApplication.Controllers.ProfileModel
 
 @{
     ViewBag.Title = "UserProfile";
 }
 
 <style>
-    .imgCenter{
+    .imgCenter {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
+
     .center {
         margin: auto;
         width: 35%;
+    }
+
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 10px;
+    }
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
     }
 </style>
 
 <h1 style="text-align: center;">@ViewBag.Message</h1>
 
-<img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" width="200" height="200"/>
-<div class="center">
-    <hr />
-    <h3 style="text-align: center;">Information</h3>
-    <dl class="dl-horizontal" style="font-size: 20px;">
-        <dt>
-            @Html.Label("Country:")
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.country)
-        </dd>
 
-        <dt>
-            @Html.Label("Age:")
-        </dt>
+<body>
+    <img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" width="200" height="200" />
+    <h2 style="text-align: center;">@ViewBag.Message</h2>
 
-        <dd>
-            @Html.DisplayFor(model => model.age)
-        </dd>
-
-        <dt>
-            @Html.Label("Favorite Movie:")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.favoriteMovie)
-        </dd>
-
-        <dt>
-            @Html.Label("User Bio:")
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.userBio)
-        </dd>
-
-    </dl>
-</div>
-<br />
-<br />
-<h3 style="text-align: center;">'Features will be added to view user collections soon!'</h3>
-@Html.ActionLink("View Collection!", "ViewUserCollection", "UserProfile", (object)Model, new { @class ="btn btn-primary btn-large"})
+    <div class="row">
+        <div class="column">
+            <h3><b>Profile Info:</b></h3>
+            @if (Model.userModel != null)
+            {
+                <h3>Country: @Model.userModel.country</h3>
+                <h3>Age: @Model.userModel.age</h3>
+                <h3>Bio: @Model.userModel.userBio</h3>
+            }
+        </div>
+        <div class="column">
+            @if (Model.movie != null)
+            {
+                <h3 style="text-align:center;">
+                    <img src="@Url.Content(Model.movie.Poster)" , style="width: auto; height: 250px;" />
+                </h3>
+            }
+        </div>
+        <div class="column">
+            @if (Model.movie != null)
+            {
+                <h3>
+                    <b>Favorite Movie</b>
+                </h3>
+                <h3>Title: @Model.movie.Title</h3>
+                <h3>Release Year: @Model.movie.Year</h3>
+            }
+        </div>
+    </div>
+    <div style="text-align:center;">@Html.ActionLink("View Collection!", "ViewUserCollection", "UserProfile", (object)Model.userModel, new { @class = "btn btn-primary btn-large" })</div>
+</body>

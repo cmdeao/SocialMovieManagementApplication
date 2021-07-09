@@ -12,7 +12,7 @@ namespace SocialMovieManagementApplication.Models
 
         public int age { get; set; }
 
-        public string favoriteMovie { get; set; }
+        //public string favoriteMovie { get; set; }
 
         public string userBio { get; set; }
     }

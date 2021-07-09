@@ -1,4 +1,5 @@
-﻿using SocialMovieManagementApplication.Models;
+﻿using SocialMovieManagementApplication.Controllers;
+using SocialMovieManagementApplication.Models;
 using SocialMovieManagementApplication.Services.Business.Data;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,16 @@ namespace SocialMovieManagementApplication.Services.Business
         public bool CheckProfile(int userID)
         {
             return service.CheckProfile(userID);
+        }
+
+        public bool AddFavoriteMovie(string jsonData, int userID)
+        {
+            return service.AddFavoriteMovie(jsonData, userID);
+        }
+
+        public Search RetrieveFavoriteMovie(int userID)
+        {
+            return service.RetrieveFavoriteMovie(userID);
         }
     }
 }
