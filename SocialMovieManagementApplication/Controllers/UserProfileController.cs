@@ -188,6 +188,7 @@ namespace SocialMovieManagementApplication.Controllers
 
         public async System.Threading.Tasks.Task<ActionResult> RandomMovie()
         {
+            //Comment for commit into new branch.
             int userID = UserManagement.Instance._loggedUser.userID;
 
             MovieService service = new MovieService();
