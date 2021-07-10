@@ -1,7 +1,7 @@
 Program Title: Social Movie Management Application
 ------------------------------------------------------------------
 
-Program Version: 0.2 7/4/2021
+Program Version: 0.3 7/10/2021
 Developer: Cameron Deao
 Grand Canyon University - CST-451 & CST-452
 
