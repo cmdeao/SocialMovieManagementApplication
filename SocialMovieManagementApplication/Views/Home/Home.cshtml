@@ -22,15 +22,12 @@
         @using (Html.BeginForm("Search", "Home", FormMethod.Post))
         {
             @Html.TextBox("SearchText", "", new { placeholder = "Search users" })
-            <input type="submit" value="Search"/>
+            <input type="submit" value="Search" />
         }
+        <br />
+        <br />
     </div>
     <img src="~/Content/Images/FilmReel-2.jpg" class="center" width="500" height="400" />
     <br />
-    @if (Session["UserName"] != null)
-    {
-        <div style="text-align:center;">
-            @Html.ActionLink("View Profile", "Index", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
-        </div>
-    }
+    
 </body>

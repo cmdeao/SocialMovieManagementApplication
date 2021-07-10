@@ -1,4 +1,4 @@
-﻿@model SocialMovieManagementApplication.Models.UserProfile
+﻿@model SocialMovieManagementApplication.Controllers.ProfileModel
 
 @{
     ViewBag.Title = "Index";
@@ -10,26 +10,61 @@
         margin-left: auto;
         margin-right: auto;
     }
+    .column {
+        float: left;
+        width: 33.33%;
+        padding: 10px;
+    }
+
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
 </style>
 
 <body>
     <img src="~/Content/Images/BlankProfilePicture.jpg" class="imgCenter" />
     <h2 style="text-align: center;">@ViewBag.Message</h2>
-    @if (Model != null)
-    {
-<div style="text-align: center;">
-    <h3>Country: @Model.country</h3>
-    <h3>Age: @Model.age</h3>
-    <h3>Favorite Movie: @Model.favoriteMovie</h3>
-    <h3>Bio: @Model.userBio</h3>
 
-    @Html.ActionLink("Update Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
-</div>
-    }
-    else
-    {
-        <h3>Please create a profile for yourself!</h3>
-        @Html.ActionLink("Create Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
-    }
+    <div class="row">
+        <div class="column">
+            <h3><b>Profile Info:</b></h3>
+            @if (Model.userModel != null)
+            {
+                <h3>Country: @Model.userModel.country</h3>
+                <h3>Age: @Model.userModel.age</h3>
+                <h3>Bio: @Model.userModel.userBio</h3>
+            }
+            else
+            {
+                <h3>Please create a profile for yourself!</h3>
+                @Html.ActionLink("Create Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+            }
+        </div>
+        <div class="column">
+            @if (Model.movie != null)
+            {
+                <h3 style="text-align:center;">
+                    <img src="@Url.Content(Model.movie.Poster)" , style="width: auto; height: 250px;" />
+                </h3>
+            }
+        </div>
+        <div class="column">
+            @if (Model.movie != null)
+            {
+                <h3>
+                    <b>Favorite Movie</b>
+                </h3>
+                <h3>Title: @Model.movie.Title</h3>
+                <h3>Release Year: @Model.movie.Year</h3>
+            }
+        </div>
+    </div>
+    <div style="text-align:center;">
+        @Html.ActionLink("Update Profile", "UpdateProfileView", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+        <br />
+        <br />
+        @Html.ActionLink("View Collection", "ViewCollection", "UserProfile", null, new { @class = "btn btn-primary btn-large" })
+    </div>
 </body>
-

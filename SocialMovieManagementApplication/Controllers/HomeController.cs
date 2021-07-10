@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Web;
+using System.Net.Http;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using SocialMovieManagementApplication.Models;
 using SocialMovieManagementApplication.Services.Business;
+
 
 namespace SocialMovieManagementApplication.Controllers
 {
@@ -22,6 +24,7 @@ namespace SocialMovieManagementApplication.Controllers
                 ViewBag.Message = "Welcome to the application! Please login to fully" +
                     " utilize the applications features!";
             }
+
             return View("Home");
         }
 

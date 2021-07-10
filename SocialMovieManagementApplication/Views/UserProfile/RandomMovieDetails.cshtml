@@ -1,0 +1,83 @@
+﻿@model SocialMovieManagementApplication.Models.MovieModel
+
+@{
+    ViewBag.Title = "Random Movie!";
+}
+<head>
+    <style>
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+        }
+
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 25px; display:inline-block;">
+        <img src="~/Content/Images/profile_popcorn.png" height="150" />
+    </div>
+    <div style="padding: 25px; display:inline-block;">
+        <h1 style="text-align:center;">Random Movie from Your Collection!<br />Grab the popcorn!<br /></h1>
+    </div>
+    <div style="padding: 25px; display:inline-block;">
+        <img src="~/Content/Images/profile_popcorn.png" height="150" />
+    </div>
+    <div class="row">
+        <div class="column">
+
+            <h1><b> @Model.Title</b></h1>
+
+            <h4>
+                <b>IMDb Rating: </b> @Html.DisplayFor(model => model.imdbRating)
+                <b>Meta Score: </b> @Html.DisplayFor(model => model.Metascore)
+            </h4>
+            <h4>
+                <b>Released: </b>@Html.DisplayFor(model => model.Released)
+                <br />
+                <b>Rating: </b> @Html.DisplayFor(model => model.Rated)
+                <br />
+                <b>Runtime: </b> @Html.DisplayFor(model => model.Runtime)
+                <br />
+                <b>Genre: </b> @Html.DisplayFor(model => model.Genre)
+                <br />
+                <br />
+                <b>Plot: </b> @Html.DisplayFor(model => model.Plot)
+                <br />
+                <br />
+                <b>Director: </b>@Html.DisplayFor(model => model.Director)
+                <br />
+                <br />
+                <b>Writers: </b>@Html.DisplayFor(model => model.Writer)
+                <br />
+                <br />
+                <b>Actors: </b>@Html.DisplayFor(model => model.Actors)
+                <br />
+                <br />
+                <b>Box Office Sales: </b>@Html.DisplayFor(model => model.BoxOffice)
+                <br />
+                <br />
+            </h4>
+            <h3><b>Awards</b></h3>
+            <h4>
+                @Html.DisplayFor(model => model.Awards)
+            </h4>
+            <br />
+            <h4>
+                <b>Production: </b>@Html.DisplayFor(model => model.Production)
+            </h4>
+        </div>
+        <div class="column">
+            <br />
+            <br />
+            <br />
+            <br />
+            <img src="@Url.Content(Model.Poster)" , style="width: auto; height: 500px;" />
+        </div>
+    </div>
+</body>

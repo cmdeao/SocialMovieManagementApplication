@@ -39,14 +39,6 @@
     </div>
 
     <div class="form-group">
-        @Html.Label("Favorite Movie:", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.favoriteMovie, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.favoriteMovie, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
         @Html.Label("Bio:", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.userBio, new { htmlAttributes = new { @class = "form-control" } })
