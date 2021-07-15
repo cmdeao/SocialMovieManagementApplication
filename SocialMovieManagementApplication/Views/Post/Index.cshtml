@@ -1,0 +1,51 @@
+﻿@model SocialMovieManagementApplication.Controllers.PostModel
+@{
+    ViewBag.Title = "View";
+}
+
+<h2 style="text-align:center;">Social Feed</h2>
+<br />
+
+<h3 style="text-align:center;">Make A Post!</h3>
+<br />
+<div style="text-align:center;">
+    @using (Html.BeginForm("PostContent", "Post", FormMethod.Post))
+    {
+        <textarea id="postContent" name="postContent" rows="2" cols="50" placeholder="Post text..."></textarea>
+        <br />
+        <input type="submit" value="Post" class="btn btn-default" />
+    }
+</div>
+<br />
+
+@foreach(var item in Model.posts)
+{
+<div style="text-align:center">
+    <h3>@item.postedUsername: @item.postContent</h3><h5>@item.datePosted</h5>
+    @for (var i = 0; i < Model.comments.Count; i++)
+    {
+        if (Model.comments[i].postID == item.postID)
+        {
+            <div style="background: ghostwhite;
+                font-size: 20px;
+                padding: 5px;
+                border: 1px solid lightgray;
+                margin: 5px;">
+                @Model.comments[i].postedUsername: 
+                @Model.comments[i].commentText 
+                <h5>@Model.comments[i].postedDate</h5>
+            </div>
+        }
+    }
+
+    @using (Html.BeginForm("PostComment", "Post", FormMethod.Post))
+    {
+        @Html.Hidden("postID", item.postID)
+        <textarea id="comment" name="comment" rows="2" cols="50" placeholder="Comment..."></textarea>
+        <br />
+        <input type="submit" value="Comment" class="btn btn-default" />
+    }
+
+    <br />
+</div>
+}

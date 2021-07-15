@@ -120,29 +120,38 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\FriendsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MovieSearchController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\Test.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommentModel.cs" />
+    <Compile Include="Models\FriendModel.cs" />
     <Compile Include="Models\MovieModel.cs" />
     <Compile Include="Models\MovieSearchModel.cs" />
+    <Compile Include="Models\SocialPostModel.cs" />
     <Compile Include="Models\UserLoginModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Business\Data\FriendsDAO.cs" />
     <Compile Include="Services\Business\Data\MovieDAO.cs" />
     <Compile Include="Services\Business\Data\ProfileDAO.cs" />
     <Compile Include="Services\Business\Data\SearchDAO.cs" />
     <Compile Include="Services\Business\Data\SecurityDAO.cs" />
+    <Compile Include="Services\Business\Data\SocialDAO.cs" />
+    <Compile Include="Services\Business\FriendsService.cs" />
     <Compile Include="Services\Business\MovieService.cs" />
     <Compile Include="Services\Business\ProfileService.cs" />
     <Compile Include="Services\Business\SearchService.cs" />
     <Compile Include="Services\Business\SecurityService.cs" />
+    <Compile Include="Services\Business\SocialService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -437,6 +446,8 @@
     <Content Include="Views\UserProfile\UserCollection.cshtml" />
     <Content Include="Views\UserProfile\RandomMovieDetails.cshtml" />
     <Content Include="Views\Shared\CollectionError.cshtml" />
+    <Content Include="Views\Post\Index.cshtml" />
+    <Content Include="Views\Friends\FriendsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

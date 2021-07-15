@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SocialMovieManagementApplication.Models.FriendModel>
+
+@{
+    ViewBag.Title = "FriendsList";
+}
+
+<h2>Friends List</h2>
+
+<table id="friends" class="table table-bordered table-responsive table-hover" style="width: 1000px"> 
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td style="text-align: center; vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.firstName)
+            </td>
+            <td style="text-align: center; vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.lastName)
+            </td>
+            <td style="text-align: center; vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.username)
+            </td>
+            @using (Html.BeginForm("ViewProfile", "UserProfile", FormMethod.Post))
+            {
+                <td style="text-align: center; vertical-align:middle;">
+                    @Html.Hidden("id", item.friendID)
+                    @Html.Hidden("username", item.username)
+                    <input type="submit" value="View Profile" />
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#friends').DataTable();
+        });
+    </script>
+}
