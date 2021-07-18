@@ -46,6 +46,19 @@
                 <h3>Age: @Model.userModel.age</h3>
                 <h3>Bio: @Model.userModel.userBio</h3>
             }
+            @if(Model.friend == false && Model.friendRequest == false)
+            {
+                using(Html.BeginForm("SendFriendRequest", "Friends", FormMethod.Post))
+                {
+                    @Html.Hidden("id", Model.userModel.userID)
+                    @Html.Hidden("username", (object)ViewBag.Message)
+                    <input type="submit" value="Friend Request"/>
+                }
+            }
+            else if(Model.friend == false && Model.friendRequest == true)
+            {
+                <button type="submit" disabled>Request Pending</button>
+            }
         </div>
         <div class="column">
             @if (Model.movie != null)

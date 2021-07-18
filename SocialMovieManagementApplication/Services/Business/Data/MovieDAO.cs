@@ -102,39 +102,6 @@ namespace SocialMovieManagementApplication.Services.Business.Data
                     }
                 }
             }
-
-            //SqlConnection conn = new SqlConnection(connectionStr);
-            //SqlCommand command = new SqlCommand(query, conn);
-            //int retValue = 0;
-
-            //try
-            //{
-            //    conn.Open();
-
-            //    command.Parameters.Add(new SqlParameter("@CollectionData", SqlDbType.Text)).Value = jsonData;
-            //    command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int)).Value = userID;
-            //    command.Prepare();
-
-            //    retValue = command.ExecuteNonQuery();
-            //    conn.Close();
-
-            //    if (retValue == 0)
-            //    {
-            //        return false;
-            //    }
-            //    else
-            //    {
-            //        return true;
-            //    }
-            //}
-            //catch(SqlException e)
-            //{
-            //    Debug.WriteLine(e.Message);
-            //}
-            //finally
-            //{
-            //    conn.Close();
-            //}
             return operationSuccess;
         }
 

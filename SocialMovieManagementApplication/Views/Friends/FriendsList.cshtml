@@ -1,0 +1,74 @@
+﻿@model IEnumerable<SocialMovieManagementApplication.Models.FriendModel>
+
+@{
+    ViewBag.Title = "FriendsList";
+}
+
+<h2>Friends List</h2>
+
+<table id="friends" class="table table-bordered table-responsive table-hover" style="width: 1000px"> 
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td style="text-align: center; vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.firstName)
+            </td>
+            <td style="text-align: center; vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.lastName)
+            </td>
+            <td style="text-align: center; vertical-align:middle;">
+                @Html.DisplayFor(modelItem => item.username)
+            </td>
+            @using (Html.BeginForm("ViewProfile", "UserProfile", FormMethod.Post))
+            {
+                <td style="text-align: center; vertical-align:middle;">
+                    @Html.Hidden("id", item.friendID)
+                    @Html.Hidden("username", item.username)
+                    <input type="submit" value="View Profile" />
+                </td>
+            }
+            @using (Html.BeginForm("RemoveFriend", "Friends", FormMethod.Post, new {@id="Form1"}))
+            {
+                <td style="text-align:center; vertical-align:middle;">
+                    @Html.Hidden("id", item.friendID)
+                    <input type="submit" value="Remove Friend" />
+                </td>
+            }
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#friends').DataTable();
+        });
+    </script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("tbody").on("submit", "#Form1", function () {
+            return confirm("Do you want to submit?");
+        });
+    </script>
+    @if(ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert('@ViewBag.Message');
+            };
+        </script>
+    }
+}

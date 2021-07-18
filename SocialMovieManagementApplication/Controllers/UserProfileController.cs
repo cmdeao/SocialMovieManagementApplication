@@ -76,10 +76,21 @@ namespace SocialMovieManagementApplication.Controllers
         public ActionResult ViewProfile(int id, string username)
         {
             ProfileService service = new ProfileService();
+            FriendsService friendService = new FriendsService();
             UserProfile searchedProfile = service.RetrieveProfile(id);
             Search favoriteMovie = service.RetrieveFavoriteMovie(id);
-
+            
             ProfileModel model = new ProfileModel();
+            model.friendRequest = false;
+            if (friendService.ConfirmFriend(UserManagement.Instance._loggedUser.userID, id))
+            {
+                model.friend = true;
+            }
+            else
+            {
+                bool pendingRequest = friendService.CheckRequest(UserManagement.Instance._loggedUser.userID, id);
+                model.friendRequest = pendingRequest;
+            }
             model.userModel = searchedProfile;
             model.movie = favoriteMovie;
             ViewBag.Message = username;
@@ -211,8 +222,6 @@ namespace SocialMovieManagementApplication.Controllers
             string json = JsonConvert.SerializeObject(movie, Formatting.Indented);
             ProfileService service = new ProfileService();
             service.AddFavoriteMovie(json, userID);
-            //string jsonData = JsonConvert.SerializeObject<Search>(item);
-            //return Content("Added favorite movie!");
             return RedirectToAction("Index", "UserProfile");
         }
     }
@@ -221,5 +230,7 @@ namespace SocialMovieManagementApplication.Controllers
     {
         public UserProfile userModel {get; set;}
         public Search movie { get; set; }
+        public bool friendRequest { get; set; }
+        public bool friend { get; set; }
     }
 }
