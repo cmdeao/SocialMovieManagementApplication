@@ -28,7 +28,7 @@ namespace SocialMovieManagementApplication.Controllers
         public ActionResult SendFriendRequest(int id, string username)
         {
             FriendsService service = new FriendsService();
-
+            //Commit comment
             if(service.SendFriendRequest(UserManagement.Instance._loggedUser.userID, id))
             {
                 return RedirectToAction("ViewFriends", "Friends");
