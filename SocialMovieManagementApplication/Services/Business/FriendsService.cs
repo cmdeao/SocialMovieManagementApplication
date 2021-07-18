@@ -14,5 +14,40 @@ namespace SocialMovieManagementApplication.Services.Business
         {
             return service.RetrieveFriends(userID);
         }
+
+        public bool SendFriendRequest(int userID, int friendID)
+        {
+            return service.SendFriendRequest(userID, friendID);
+        }
+
+        public List<FriendModel> RetrieveFriendRequests(int userID)
+        {
+            return service.ViewFriendRequests(userID);
+        }
+
+        public bool ConfirmFriendRequest(int userID, int friendID)
+        {
+            return service.ConfirmFriendRequest(userID, friendID);
+        }
+
+        public bool RemoveFriend(int userID, int friendID)
+        {
+            return service.RemoveFriend(userID, friendID);
+        }
+
+        public bool CheckRequest(int userID, int friendID)
+        {
+            return service.CheckRequest(userID, friendID);
+        }
+
+        public bool ConfirmFriend(int userID, int friendID)
+        {
+            return service.ConfirmFriend(userID, friendID);
+        }
+
+        public bool DeclineFriend(int userID, int friendID)
+        {
+            return service.DeclineFriend(userID, friendID);
+        }
     }
 }

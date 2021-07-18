@@ -146,7 +146,7 @@ namespace SocialMovieManagementApplication.Services.Business.Data
         public List<SocialPostModel> RetrieveFriendPosts(int userID)
         {
             string query = "SELECT p.* FROM Users m RIGHT JOIN Friends f ON f.friend_id = m.user_id LEFT JOIN SocialPosts p ON p.postedBy = f.friend_id" +
-                " WHERE f.user_id = " + userID + " AND p.postedBy IS NOT NULL";
+                " WHERE f.user_id = " + userID + " AND p.postedBy IS NOT NULL ORDER BY p.datePosted DESC";
 
             List<SocialPostModel> friendsPosts = new List<SocialPostModel>();
             SqlConnection conn = new SqlConnection(connectionStr);
@@ -182,7 +182,7 @@ namespace SocialMovieManagementApplication.Services.Business.Data
 
         public List<CommentModel> FriendPostComments(int postID)
         {
-            string query = "SELECT * FROM SocialComments WHERE postID = " + postID;
+            string query = "SELECT * FROM SocialComments WHERE postID = " + postID + " ORDER BY postedDate DESC";
             List<CommentModel> comments = new List<CommentModel>();
             SqlConnection conn = new SqlConnection(connectionStr);
             SqlCommand command = new SqlCommand(query, conn);

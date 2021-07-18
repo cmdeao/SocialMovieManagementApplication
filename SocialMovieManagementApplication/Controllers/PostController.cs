@@ -18,30 +18,7 @@ namespace SocialMovieManagementApplication.Controllers
             SocialService service = new SocialService();
             List<SocialPostModel> retrievedPosts = service.RetrievePosts();
             List<CommentModel> retrievedComments = service.RetrieveComments();
-            Debug.WriteLine("Size of List: " + retrievedPosts.Count);
 
-            List<SocialPostModel> posts = new List<SocialPostModel>();
-            List<CommentModel> comments = new List<CommentModel>();
-
-            for(int i = 0; i < 3; i++)
-            {
-                CommentModel comment = new CommentModel();
-                comment.postID = i;
-                comment.commentText = "testing " + i + " hi";
-                comments.Add(comment);
-            }
-            for(int i = 0; i < 3; i++)
-            {
-                SocialPostModel post = new SocialPostModel();
-                post.postedUsername = "DEV: " + i;
-                post.postID = i;
-                post.postContent = "THIS IS A TEST FOR CONTENT " + i;
-                posts.Add(post);
-            }
-            CommentModel newComment = new CommentModel();
-            newComment.postID = 1;
-            newComment.commentText = "THIS IS A FINAL TEST";
-            comments.Add(newComment);
             PostModel model = new PostModel();
             model.posts = retrievedPosts;
             model.comments = retrievedComments;
@@ -103,12 +80,11 @@ namespace SocialMovieManagementApplication.Controllers
             post.datePosted = postDate;
             if (service.CreatePost(post))
             {
-                //return Content(String.Format("Posted by: {0}, Username: {1}, Content: {2}, Date: {3}", post.postedBy, post.postedUsername, post.postContent, post.datePosted));
                 return RedirectToAction("Index", "Post");
             }
             else
             {
-                return Content("FAILED TO INSERT POST!");
+                return View("Error");
             }
             
         }

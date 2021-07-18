@@ -14,6 +14,7 @@
             <th>Username</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -37,11 +38,18 @@
                     <input type="submit" value="View Profile" />
                 </td>
             }
-            @using (Html.BeginForm("RemoveFriend", "Friends", FormMethod.Post, new {@id="Form1"}))
+            @using (Html.BeginForm("ConfirmFriendRequest", "Friends", FormMethod.Post))
             {
-                <td style="text-align:center; vertical-align:middle;">
+                <td style="text-align:center; vertical-align:middle">
                     @Html.Hidden("id", item.friendID)
-                    <input type="submit" value="Remove Friend" />
+                    <input type="submit" value="Confirm Request" />
+                </td>
+            }
+            @using (Html.BeginForm("DeclineFriendRequest", "Friends", FormMethod.Post))
+            {
+                <td style="text-align:center; vertical-align:middle">
+                    @Html.Hidden("id", item.friendID)
+                    <input type="submit" value="Decline Request" />
                 </td>
             }
         </tr>
@@ -56,19 +64,4 @@
             $('#friends').DataTable();
         });
     </script>
-
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript">
-        $("tbody").on("submit", "#Form1", function () {
-            return confirm("Do you want to submit?");
-        });
-    </script>
-    @if(ViewBag.Message != null)
-    {
-        <script type="text/javascript">
-            window.onload = function () {
-                alert('@ViewBag.Message');
-            };
-        </script>
-    }
 }
