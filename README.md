@@ -4,6 +4,7 @@ Program Title: Social Movie Management Application
 Program Version: 0.4 7/18/2021
 Developer: Cameron Deao
 Grand Canyon University - CST-451 & CST-452
+GitHub Repository: https://github.com/cmdeao/SocialMovieManagementApplication/tree/main
 
 
 About
