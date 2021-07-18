@@ -85,6 +85,8 @@ namespace SocialMovieManagementApplication.Services.Business.Data
                 command.ExecuteNonQuery();
                 command.CommandText = "INSERT INTO dbo.Friends (user_id, friend_id) VALUES (" + userID + ", " + friendID + ")";
                 command.ExecuteNonQuery();
+                command.CommandText = "INSERT INTO dbo.Friends (user_id, friend_id) VALUES (" + friendID + ", " + userID + ")";
+                command.ExecuteNonQuery();
 
                 transaction.Commit();
                 return true;
@@ -145,22 +147,40 @@ namespace SocialMovieManagementApplication.Services.Business.Data
 
         public bool RemoveFriend(int userID, int friendID)
         {
-            string query = "DELETE FROM dbo.Friends WHERE user_id = " + userID + " AND friend_id = " + friendID;
             SqlConnection conn = new SqlConnection(connectionStr);
-            SqlCommand command = new SqlCommand(query, conn);
+            conn.Open();
+            SqlCommand command = conn.CreateCommand();
+            SqlTransaction transaction;
+            transaction = conn.BeginTransaction("RemoveFriend");
+
+            command.Connection = conn;
+            command.Transaction = transaction;
 
             try
             {
-                conn.Open();
+                command.CommandText = "DELETE FROM dbo.Friends WHERE user_id = " + userID + " AND friend_id = " + friendID;
                 command.ExecuteNonQuery();
-                conn.Close();
+                command.CommandText = "DELETE FROM dbo.Friends WHERE user_id = " + friendID + " AND friend_id = " + userID;
+                command.ExecuteNonQuery();
+
+                transaction.Commit();
                 return true;
             }
             catch(Exception e)
             {
+                Debug.WriteLine(e.GetType());
                 Debug.WriteLine(e.Message);
+                try
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+                catch(Exception e2)
+                {
+                    Debug.WriteLine(e2.GetType());
+                    Debug.WriteLine(e2.Message);
+                }
             }
-
             return false;
         }
 
