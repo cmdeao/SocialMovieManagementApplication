@@ -135,5 +135,104 @@ namespace SocialMovieManagementApplication.Services.Business.Data
 
             return false;
         }
+
+        public bool UpdateMovieWishlist(int userID, string jsonData)
+        {
+            bool operationSuccess = false;
+
+            string query = "UPDATE dbo.Collections SET wish_list=@wishData WHERE user_id=@id";
+
+            using (SqlConnection sqlConnection = new SqlConnection(connectionStr))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add("@wishData", SqlDbType.Text).Value = jsonData;
+                    sqlCommand.Parameters.Add("@id", SqlDbType.Int).Value = userID;
+
+                    try
+                    {
+                        sqlConnection.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        sqlConnection.Close();
+                        operationSuccess = true;
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.WriteLine(e.GetType());
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
+            return operationSuccess;
+        }
+
+        public string RetrieveWishList(int userID)
+        {
+            string returnValue = null;
+            string query = "SELECT wish_list FROM dbo.Collections WHERE user_id = @userID";
+
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand command = new SqlCommand(query, conn);
+
+            try
+            {
+                command.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+                conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if(reader.HasRows)
+                {
+                    if(reader.Read())
+                    {
+                        returnValue = reader.GetString(0);
+                        reader.Close();
+                        conn.Close();
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.GetType());
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return returnValue;
+        }
+
+        public bool CheckWishList(int userID)
+        {
+            string query = "SELECT wish_list FROM dbo.Collections WHERE user_id = @id AND wish_list IS NOT NULL";
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand command = new SqlCommand(query, conn);
+
+            try
+            {
+                command.Parameters.Add("@id", SqlDbType.Int).Value = userID;
+                conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if(reader.HasRows)
+                {
+                    reader.Close();
+                    conn.Close();
+                    return true;
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine("CHECKING WISHLIST ERROR");
+                Debug.WriteLine(e.GetType());
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
     }
 }

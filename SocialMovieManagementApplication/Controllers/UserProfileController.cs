@@ -117,6 +117,26 @@ namespace SocialMovieManagementApplication.Controllers
             }
         }
 
+        public ActionResult ViewUserWishlist(UserProfile user)
+        {
+            int userID = user.userID;
+            MovieService service = new MovieService();
+            string jsonData = service.RetrieveWishList(userID);
+            List<Search> jsonWishlist = new List<Search>();
+
+            if (jsonData != null)
+            {
+                jsonWishlist = JsonConvert.DeserializeObject<List<Search>>(jsonData);
+                ViewBag.Message = String.Format("Wishlist size: {0}", jsonWishlist.Count);
+                return View("UserWishlist", jsonWishlist);
+            }
+            else
+            {
+                ViewBag.Message = "Collection size: 0";
+                return View("UserWishlist", jsonWishlist);
+            }
+        }
+
         public ActionResult ViewCollection()
         {
             MovieService service = new MovieService();
@@ -132,6 +152,25 @@ namespace SocialMovieManagementApplication.Controllers
             {
                 ViewBag.Message = String.Format("You have {0} movies in your collection!", 0);
                 return View("ProfileCollection", jsonMovies);
+            }
+        }
+
+        public ActionResult ViewWishlist()
+        {
+            MovieService service = new MovieService();
+            string jsonData = service.RetrieveWishList(UserManagement.Instance._loggedUser.userID);
+            List<Search> jsonWish = new List<Search>();
+
+            if(jsonData != null)
+            {
+                jsonWish = JsonConvert.DeserializeObject<List<Search>>(jsonData);
+                ViewBag.Message = String.Format("You have {0} movies in your wishlist.", jsonWish.Count);
+                return View("ProfileWishlist", jsonWish);
+            }
+            else
+            {
+                ViewBag.Message = "You have 0 movies in your wishlist";
+                return View("ProfileWishList", jsonWish);
             }
         }
 
@@ -193,8 +232,96 @@ namespace SocialMovieManagementApplication.Controllers
             }
             else
             {
-                return Content("SOMETHING WENT WRONG UPDATING A COLLECTION!");
+                return View("Error");
             }
+        }
+
+        public ActionResult RemoveFromWishlist(Search item)
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+            MovieService service = new MovieService();
+            string jsonWishlist = service.RetrieveWishList(userID);
+            List<Search> retrievedWishlist = JsonConvert.DeserializeObject<List<Search>>(jsonWishlist);
+
+            retrievedWishlist.RemoveAll(x => x.imdbID == item.imdbID);
+            string jsonUpdate = JsonConvert.SerializeObject(retrievedWishlist, Formatting.Indented);
+            if(service.UpdateWishlist(userID, jsonUpdate))
+            {
+                return RedirectToAction("ViewWishlist", "UserProfile");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult AddToWishlist(Search item)
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+
+            MovieService service = new MovieService();
+
+            if(service.CheckWishlist(userID))
+            {
+                string jsonWishlist = service.RetrieveWishList(userID);
+                List<Search> wishlist = JsonConvert.DeserializeObject<List<Search>>(jsonWishlist);
+
+                if (wishlist.Any(x => x.imdbID == item.imdbID))
+                {
+                    return View("CollectionError");
+                }
+
+                wishlist.Add(item);
+                string wishlistInsertion = JsonConvert.SerializeObject(wishlist, Formatting.Indented);
+
+                if (service.UpdateWishlist(userID, wishlistInsertion))
+                {
+                    return RedirectToAction("ViewWishlist", "UserProfile");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            else
+            {
+                List<Search> newWishlist = new List<Search>();
+                newWishlist.Add(item);
+                string jsonWishlist = JsonConvert.SerializeObject(newWishlist, Formatting.Indented);
+                if(service.UpdateWishlist(userID, jsonWishlist))
+                {
+                    return RedirectToAction("ViewCollection", "UserProfile");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            
+        }
+
+        public ActionResult AddWishlistItemToCollection(Search item)
+        {
+            int userID = UserManagement.Instance._loggedUser.userID;
+            MovieService service = new MovieService();
+            string jsonWishlist = service.RetrieveWishList(userID);
+            List<Search> retrievedWishlist = JsonConvert.DeserializeObject<List<Search>>(jsonWishlist);
+
+            retrievedWishlist.RemoveAll(x => x.imdbID == item.imdbID);
+            string jsonUpdate = JsonConvert.SerializeObject(retrievedWishlist, Formatting.Indented);
+            if (service.UpdateWishlist(userID, jsonUpdate))
+            {
+                return AddToCollection(item);
+            }
+            else
+            {
+                return ErrorPage();
+            }
+        }
+
+        public ActionResult ErrorPage()
+        {
+            return View("Error");
         }
 
         public async System.Threading.Tasks.Task<ActionResult> RandomMovie()
