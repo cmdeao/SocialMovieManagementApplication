@@ -1,7 +1,7 @@
 Program Title: Social Movie Management Application
 ------------------------------------------------------------------
 
-Program Version: 0.4 7/18/2021
+Program Version: 1.0 7/23/2021
 Developer: Cameron Deao
 Grand Canyon University - CST-451 & CST-452
 GitHub Repository: https://github.com/cmdeao/SocialMovieManagementApplication/tree/main
@@ -46,6 +46,10 @@ Changelog
 - Users can view their friends list within their profile.
 - Users can remove friends from their friends list.
 - Users can view their friends posts from the home page.
+
+1.0 (2021-07-23)
+- Implemented admin functionality to remove social posts and comments.
+- Implemented check to ensure banned users can not log into application.
 
 ------------------------------------------------------------------
 

@@ -56,6 +56,11 @@ namespace SocialMovieManagementApplication.Services.Business.Data
                     //Iterating through the results.
                     while(reader.Read())
                     {
+                        if(reader.GetSqlByte(6) == 1)
+                        {
+                            conn.Close();
+                            return false;
+                        }
                         //Checking the stored password against the passed password.
                         if(!VerifyHash(reader.GetString(5), user.password))
                         {
@@ -70,6 +75,11 @@ namespace SocialMovieManagementApplication.Services.Business.Data
                             logUser.lastName = reader.GetString(2);
                             logUser.emailAddress = reader.GetString(3);
                             logUser.username = reader.GetString(4);
+                            if(reader["role"] != DBNull.Value)
+                            {
+                                logUser.role = reader.GetInt32(7);
+                            }
+                            //logUser.role = reader.GetInt32(7);
                             UserManagement.Instance._loggedUser = logUser;
                             authenticatedUser = true;
                         }

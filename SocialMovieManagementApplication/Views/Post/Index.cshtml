@@ -22,6 +22,14 @@
 {
 <div style="text-align:center">
     <h3>@item.postedUsername: @item.postContent</h3><h5>@item.datePosted</h5>
+    @if(Session["Admin"].ToString() == "2")
+    {
+        using (Html.BeginForm("DeletePost", "Admin", FormMethod.Post))
+        {
+            @Html.Hidden("postID", item.postID)
+            <input type="submit" value="Delete Post" class="btn btn-default" />
+        }
+    }
     @for (var i = 0; i < Model.comments.Count; i++)
     {
         if (Model.comments[i].postID == item.postID)
@@ -34,6 +42,14 @@
                 @Model.comments[i].postedUsername: 
                 @Model.comments[i].commentText 
                 <h5>@Model.comments[i].postedDate</h5>
+                @if(Session["Admin"].ToString() == "2")
+                {
+                    using (Html.BeginForm("DeleteComment", "Admin", FormMethod.Post))
+                    {
+                        @Html.Hidden("commentID", Model.comments[i].commentID)
+                        <input type="submit" value="Delete Comment" class="btn btn-default" />
+                    }
+                }
             </div>
         }
     }

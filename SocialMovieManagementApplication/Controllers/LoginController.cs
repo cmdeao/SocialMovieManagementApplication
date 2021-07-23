@@ -49,6 +49,14 @@ namespace SocialMovieManagementApplication.Controllers
             if(service.Authenticate(model))
             {
                 Session["UserName"] = model.username;
+                if(UserManagement.Instance._loggedUser.role == 2)
+                {
+                    Session["Admin"] = UserManagement.Instance._loggedUser.role;
+                }
+                else
+                {
+                    Session["Admin"] = 1;
+                }
                 return RedirectToAction("Index", "Home");
             }
             else

@@ -40,5 +40,15 @@ namespace SocialMovieManagementApplication.Services.Business
         {
             return service.FriendPostComments(postID);
         }
+
+        public bool DeleteComment(int commentID)
+        {
+            return service.AdminDeleteComment(commentID);
+        }
+
+        public bool DeletePost(int postID)
+        {
+            return service.AdminDeletePost(postID);
+        }
     }
 }
