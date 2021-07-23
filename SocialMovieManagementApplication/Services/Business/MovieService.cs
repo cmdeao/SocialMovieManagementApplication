@@ -33,6 +33,21 @@ namespace SocialMovieManagementApplication.Services.Business
             return service.UpdateUserCollection(userID, jsonData);
         }
 
+        public bool CheckWishlist(int userID)
+        {
+            return service.CheckWishList(userID);
+        }
+
+        public bool UpdateWishlist(int userID, string jsonData)
+        {
+            return service.UpdateMovieWishlist(userID, jsonData);
+        }
+
+        public string RetrieveWishList(int userID)
+        {
+            return service.RetrieveWishList(userID);
+        }
+
         public async System.Threading.Tasks.Task<MovieModel> SearchMovieAPI(string id)
         {
             MovieModel foundMovie;

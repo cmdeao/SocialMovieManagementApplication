@@ -64,6 +64,15 @@
             <h4>
                 <b>Production: </b>@Html.DisplayFor(model => model.Production)
             </h4>
+            <br />
+            @if (Session["UserName"] != null)
+            {
+                <div style="text-align:left;">
+                    @Html.ActionLink("Add to Collection", "AddMovieToCollection", "MovieSearch", (object)Model, new { @class = "btn btn-primary btn-large" })
+                    @Html.ActionLink("Add to Wishlist", "AddToWishlist", "UserProfile", (object)Model, new { @class = "btn btn-primary btn-large" })
+                    @Html.ActionLink("Set as Favorite", "SetFavoriteMovie", "UserProfile", (object)Model, new { @class = "btn btn-primary btn-large" })
+                </div>
+            }
         </div>
         <div class="column">
             <br />

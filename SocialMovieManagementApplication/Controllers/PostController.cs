@@ -33,7 +33,6 @@ namespace SocialMovieManagementApplication.Controllers
             List<CommentModel> comments = new List<CommentModel>();
             for(int i = 0; i < friendPosts.Count; i++)
             {
-                Debug.WriteLine("Post ID: " + friendPosts[i].postID);
                 List<CommentModel> newComments = service.FriendsPostComments(friendPosts[i].postID);
                 comments.AddRange(newComments);
             }

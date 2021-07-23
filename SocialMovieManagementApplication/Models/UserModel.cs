@@ -38,6 +38,8 @@ namespace SocialMovieManagementApplication.Models
         [DataType(DataType.Password)]
         [StringLength(50, ErrorMessage = "Password exceeded 50 characters.")]
         public string password { get; set; }
+
+        public int role { get; set; }
         
     }
 }

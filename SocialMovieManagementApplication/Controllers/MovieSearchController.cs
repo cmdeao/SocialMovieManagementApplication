@@ -13,9 +13,7 @@ using SocialMovieManagementApplication.Models;
 namespace SocialMovieManagementApplication.Controllers
 {
     public class MovieSearchController : Controller
-    {
-        //Root myDeserializedClass = null;
-        
+    {   
         // GET: MovieSearch
         [HttpPost]
         public async System.Threading.Tasks.Task<ActionResult> Index(string MovieSearchTerm)
@@ -103,6 +101,42 @@ namespace SocialMovieManagementApplication.Controllers
         {
             MovieModel foundMovie = await SearchMovieAPIAsync(id);
             return View("ViewMovie",foundMovie);
+        }
+
+        public ActionResult AddMovieToCollection(MovieModel movie)
+        {
+            Search addedMovie = new Search();
+            addedMovie.Title = movie.Title;
+            addedMovie.Year = movie.Year;
+            addedMovie.imdbID = movie.imdbID;
+            addedMovie.Type = movie.Type;
+            addedMovie.Poster = movie.Poster;
+
+            return RedirectToAction("AddToCollection", "UserProfile", addedMovie);
+        }
+
+        public ActionResult AddMovieToWishlist(MovieModel movie)
+        {
+            Search wishMovie = new Search();
+            wishMovie.Title = movie.Title;
+            wishMovie.Year = movie.Year;
+            wishMovie.imdbID = movie.imdbID;
+            wishMovie.Type = movie.Type;
+            wishMovie.Poster = movie.Poster;
+
+            return RedirectToAction("AddToWishlist", "userProfile", wishMovie);
+        }
+
+        public ActionResult SetMovieAsFavorite(MovieModel movie)
+        {
+            Search favoriteMovie = new Search();
+            favoriteMovie.Title = movie.Title;
+            favoriteMovie.Year = movie.Year;
+            favoriteMovie.imdbID = movie.imdbID;
+            favoriteMovie.Type = movie.Type;
+            favoriteMovie.Poster = movie.Poster;
+
+            return RedirectToAction("SetFavoriteMovie", "UserProfile", favoriteMovie);
         }
     }
 

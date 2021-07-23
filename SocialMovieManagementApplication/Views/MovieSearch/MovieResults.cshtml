@@ -25,6 +25,7 @@
             <th>Poster</th>
             <th>View</th>
             <th>Add to Collection</th>
+            <th>Add to Wishlist</th>
             <th>Set as Favorite</th>
         </tr>
     </thead>
@@ -52,6 +53,9 @@
                 {
                     <td style="vertical-align:middle;">
                         @Html.ActionLink("Add to Collection", "AddToCollection", "UserProfile", item, new { @class = "btn btn-primary btn-large" })
+                    </td>
+                    <td style="vertical-align:middle;">
+                        @Html.ActionLink("Add to Wishlist", "AddToWishlist", "UserProfile", item, new { @class = "btn btn-primary btn-large"})
                     </td>
                     <td style="vertical-align: middle;">
                         @Html.ActionLink("Set as Favorite", "SetFavoriteMovie", "UserProfile", item, new { @class = "btn btn-primary btn-large"})

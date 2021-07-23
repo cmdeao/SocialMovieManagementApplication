@@ -214,5 +214,71 @@ namespace SocialMovieManagementApplication.Services.Business.Data
             }
             return null;
         }
+
+        public bool AdminDeleteComment(int commentID)
+        {
+            string query = "DELETE FROM SocialComments WHERE commentID = @commentID";
+            SqlConnection conn = new SqlConnection(connectionStr);
+            SqlCommand command = new SqlCommand(query, conn);
+
+            try
+            {
+                conn.Open();
+                command.Parameters.Add("@commentID", SqlDbType.Int).Value = commentID;
+                command.ExecuteNonQuery();
+                conn.Close();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.GetType());
+                Debug.WriteLine(e.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool AdminDeletePost(int postID)
+        {
+            SqlConnection conn = new SqlConnection(connectionStr);
+            conn.Open();
+            SqlCommand command = conn.CreateCommand();
+            SqlTransaction transaction;
+            transaction = conn.BeginTransaction("DeletePost");
+
+            command.Connection = conn;
+            command.Transaction = transaction;
+
+            try
+            {
+                Debug.WriteLine("PASSED VALUE: " + postID);
+                command.CommandText = "DELETE FROM dbo.SocialComments WHERE postID = " + postID;
+                command.ExecuteNonQuery();
+                command.CommandText = "DELETE FROM dbo.SocialPosts WHERE postID = " + postID;
+                command.ExecuteNonQuery();
+
+                transaction.Commit();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(e.GetType());
+                Debug.WriteLine(e.Message);
+                try
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+                catch(Exception e2)
+                {
+                    Debug.WriteLine(e2.GetType());
+                    Debug.WriteLine(e2.Message);
+                }
+            }
+            return false;
+        }
     }
 }
