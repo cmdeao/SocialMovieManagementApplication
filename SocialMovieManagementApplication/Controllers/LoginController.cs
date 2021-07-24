@@ -48,7 +48,6 @@ namespace SocialMovieManagementApplication.Controllers
             //authentication and returning the appropriate view.
             if(service.Authenticate(model))
             {
-                //COMMIT COMMENT
                 Session["UserName"] = model.username;
                 if(UserManagement.Instance._loggedUser.role == 2)
                 {
