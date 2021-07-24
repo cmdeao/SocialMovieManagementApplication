@@ -124,7 +124,7 @@ namespace SocialMovieManagementApplication.Controllers
             wishMovie.Type = movie.Type;
             wishMovie.Poster = movie.Poster;
 
-            return RedirectToAction("AddToWishlist", "userProfile", wishMovie);
+            return RedirectToAction("AddToWishlist", "UserProfile", wishMovie);
         }
 
         public ActionResult SetMovieAsFavorite(MovieModel movie)
