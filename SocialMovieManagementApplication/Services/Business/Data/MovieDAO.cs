@@ -57,7 +57,7 @@ namespace SocialMovieManagementApplication.Services.Business.Data
 
                 if(reader.HasRows)
                 {
-                    if(reader.Read())
+                    if(reader.Read() && !reader.IsDBNull(0))
                     {
                         returnValue = reader.GetString(0);
                         reader.Close();
@@ -134,6 +134,36 @@ namespace SocialMovieManagementApplication.Services.Business.Data
             }
 
             return false;
+        }
+
+        public bool CreateWishLIst(int userID, string jsonData)
+        {
+            bool operationSuccess = false;
+
+            string query = "INSERT INTO dbo.Collections (user_id, wish_list) VALUES (@userID, @wishlist)";
+
+            using(SqlConnection sqlConnection = new SqlConnection(connectionStr))
+            {
+                using (SqlCommand sqlCommand = new SqlCommand(query, sqlConnection))
+                {
+                    sqlCommand.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
+                    sqlCommand.Parameters.Add("@wishlist", SqlDbType.Text).Value = jsonData;
+
+                    try
+                    {
+                        sqlConnection.Open();
+                        sqlCommand.ExecuteNonQuery();
+                        sqlConnection.Close();
+                        operationSuccess = true;
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
+
+            return operationSuccess;
         }
 
         public bool UpdateMovieWishlist(int userID, string jsonData)

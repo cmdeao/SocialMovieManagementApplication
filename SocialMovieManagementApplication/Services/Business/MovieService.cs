@@ -48,6 +48,10 @@ namespace SocialMovieManagementApplication.Services.Business
             return service.RetrieveWishList(userID);
         }
 
+        public bool CreateWishlist(int userID, string jsonData)
+        {
+            return service.CreateWishLIst(userID, jsonData);
+        }
         public async System.Threading.Tasks.Task<MovieModel> SearchMovieAPI(string id)
         {
             MovieModel foundMovie;

@@ -261,7 +261,22 @@ namespace SocialMovieManagementApplication.Controllers
 
             MovieService service = new MovieService();
 
-            if(service.CheckWishlist(userID))
+            if(!service.CheckUserCollection(userID))
+            {
+                List<Search> wishList = new List<Search>();
+                wishList.Add(item);
+                string jsonWishlist = JsonConvert.SerializeObject(wishList, Formatting.Indented);
+                if(service.CreateWishlist(userID, jsonWishlist))
+                {
+                    return RedirectToAction("ViewWishlist", "UserProfile");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+
+            if (service.CheckWishlist(userID))
             {
                 string jsonWishlist = service.RetrieveWishList(userID);
                 List<Search> wishlist = JsonConvert.DeserializeObject<List<Search>>(jsonWishlist);
@@ -288,16 +303,15 @@ namespace SocialMovieManagementApplication.Controllers
                 List<Search> newWishlist = new List<Search>();
                 newWishlist.Add(item);
                 string jsonWishlist = JsonConvert.SerializeObject(newWishlist, Formatting.Indented);
-                if(service.UpdateWishlist(userID, jsonWishlist))
+                if (service.UpdateWishlist(userID, jsonWishlist))
                 {
-                    return RedirectToAction("ViewCollection", "UserProfile");
+                    return RedirectToAction("ViewWishlist", "UserProfile");
                 }
                 else
                 {
                     return View("Error");
                 }
             }
-            
         }
 
         public ActionResult AddWishlistItemToCollection(Search item)
